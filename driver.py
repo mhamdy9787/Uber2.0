@@ -34,6 +34,9 @@ class Driver:
 
         @type self: Driver
         @rtype: str
+        >>> driver = Driver("Bob",Location(5,10), 10)
+        >>> print(driver)
+        Driver: Bob, located at 5,10
         """
         # TODO
         return "Driver: {0}, located at {1}".format(self.id,self.location)
@@ -54,11 +57,11 @@ class Driver:
         @type self: Driver
         @type destination: Location
         @rtype: int
-        >>>driver1 = Driver()
-        >>>driver1.location = Location(5,6)
-        >>>destination = Location(8,3)
-        >>>driver1.speed = 3
-        >>>driver1.get_travel_time(destination)
+        >>> driver1 = Driver("driver1",Location(5,10), 10)
+        >>> driver1.location = Location(5,6)
+        >>> destination = Location(8,3)
+        >>> driver1.speed = 3
+        >>> driver1.get_travel_time(destination)
         2
         """
         # TODO
@@ -70,12 +73,12 @@ class Driver:
         @type self: Driver
         @type location: Location
         @rtype: int
-        >>>driver1 = Driver()
-        >>>location = Location(4,8)
-        >>>driver1.destination = Location(2,6)
-        >>>driver1.speed = 2
-        >>>driver1.start_drive(location)
-        2
+        >>> driver1 = Driver("driver1",Location(5,10), 10)
+        >>> location = Location(4,8)
+        >>> driver1.destination = Location(2,6)
+        >>> driver1.speed = 2
+        >>> print(driver1.start_drive(location))
+        1
         """
         # TODO
         self.destination = location
@@ -100,12 +103,11 @@ class Driver:
         @type rider: Rider
         @rtype: int
 
-        >>>driver = Driver()
-        >>>driver.location = Location(20,5)
-        >>>driver.speed = 5
-        >>>rider = Rider()
-        >>>rider.destination = Location(5,15)
-        >>>driver.start_ride(rider)
+        >>> driver = Driver("driver",Location(5,10), 10)
+        >>> driver.location = Location(20,5)
+        >>> driver.speed = 5
+        >>> rider = Rider("rider","waiting",Location(5,15),Location(20,5),100)
+        >>> driver.start_ride(rider)
         5
         """
         # TODO
