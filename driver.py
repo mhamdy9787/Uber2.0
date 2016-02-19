@@ -91,6 +91,12 @@ class Driver:
 
         @type self: Driver
         @rtype: None
+        >>> driver = Driver("driver",Location(5,10), 10)
+        >>> driver.destination = Location(25,500)
+        >>> driver.end_drive()
+        >>> print(driver.location)
+        25,500
+
         """
         # TODO
         #not sure if complete
@@ -123,6 +129,13 @@ class Driver:
 
         @type self: Driver
         @rtype: None
+        >>> driver = Driver("driver",Location(5,10), 10)
+        >>> driver.destination = Location(25,500)
+        >>> driver.end_ride()
+        >>> print(driver.location)
+        25,500
+        >>> print(driver.destination)
+        None
         """
         # TODO
         self.location = self.destination
