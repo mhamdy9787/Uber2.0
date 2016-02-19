@@ -1,5 +1,7 @@
 from driver import Driver
 from rider import Rider
+from location import Location #imported for doctesting
+
 
 class Dispatcher:
     """A dispatcher fulfills requests from riders and drivers for a
@@ -32,28 +34,30 @@ class Dispatcher:
 
     def __str__(self):
         """Return a string representation.
-
         @type self: Dispatcher
         @rtype: str
-        >>>bob = driver
-        >>>john = driver
-        >>>jimmy = driver
-        >>>self.driverFleet = [bob,john,jimmy]
-        >>>self.availableDriver = [john]
-        >>>wayne = driver
-        >>>darren = driver
-        >>>self.waitingList = [darren,wayne]
-        >>>__str__()
-        "Amount of Drivers: 3\nAmount of Available Drivers: 1\nAmount of Waiting Customers:2"
+        >>> dispatch = Dispatcher()
+        >>> bob = Driver("bob",Location(5,10), 10)
+        >>> john = Driver("john",Location(5,10), 10)
+        >>> jimmy = Driver("jimmy",Location(5,10), 10)
+        >>> dispatch.driverFleet = [bob,john,jimmy]
+        >>> dispatch.availableDriver = [john]
+        >>> wayne = Driver("wayne",Location(5,10), 10)
+        >>> darren = Driver("darren",Location(5,10), 10)
+        >>> dispatch.waitingList = [darren,wayne]
+        >>> print(dispatch)
+        Amount of Drivers: 3
+        Amount of available Drivers: 1
+        Amount of passengers: 2
+
         """
         # TODO
-        return ("Amount of Drivers: {0}\n" #The number of drivers
-                "Amount of Available Drivers: {1}\n"#The number of available drivers
-                "Amount of Waiting Customers:{2}", format(len(self.driverFleet),len(self.availableDriver),len(self.waitingList)))
-                #^The number of waiting customers
+        return ("Amount of Drivers: " + str(len(self.driverFleet)) + "\n"
+                "Amount of available Drivers: " + str(len(self.availableDriver)) + "\n"
+                "Amount of passengers: " + str(len(self.waitingList)))#The number of waiting customers
                 
                 
-    def request_driver(self, rider):
+    def request_driver(self, rider):# Weird Error in doctest
         """Return a driver for the rider, or None if no driver is available.
 
         Add the rider to the waiting list if there is no available driver.
@@ -61,15 +65,19 @@ class Dispatcher:
         @type self: Dispatcher
         @type rider: Rider
         @rtype: Driver | None
-        >>>jack = Rider
-        >>>self.waitingList.append(jack)
-        >>>John = Driver
-        >>>self.availableDriver,append(John)
-        >>>print(request_driver(jack))
-        John
-        >>>self.waitingList.append(jack)
-        >>>self.availableDriver = []
-        >>>print(request_driver(jack))
+        >>> jack = Rider("jack","waiting",Location(5,6),Location(20,5),100)
+        >>> dispatch = Dispatcher()
+        >>> dispatch.waitingList.append(jack)
+        >>> John = Driver("John",Location(5,10),4)
+        >>> dispatch.availableDriver.append(John)
+        >>> print(dispatch.request_driver(jack))
+        Driver: John, located at 5,10
+        >>> jimmy = Rider("jimmy","waiting",Location(5,6),Location(20,5),100)
+        >>> dispatch2 = Dispatcher()
+        >>> dispatch2.availableDriver = []
+        >>> dispatch2.waitingList.append(jimmy)
+        >>> dispatch2.availableDriver = []
+        >>> print(dispatch2.request_driver(jimmy))
         None
         """
         # TODO
@@ -95,13 +103,12 @@ class Dispatcher:
         @type self: Dispatcher
         @type driver: Driver
         @rtype: Rider | None
-        >>>self.waitingList = ["jack"]
-        >>>self.availableDriver = ["John"]
-        >>>request_rider("John")
-        "jack"
-        >>>self.waitingList = []
-        >>>self.availableDriver = ["John"]
-        >>>request_rider("John")
+        >>> dispatch = Dispatcher()
+        >>> dispatch.waitingList = ["jack"]
+        >>> print(dispatch.request_rider("John"))
+        jack
+        >>> dispatch2 = Dispatcher()
+        >>> print(dispatch2.request_rider("John"))
         None
         """
         # TODO
@@ -119,14 +126,12 @@ class Dispatcher:
         @type self: Dispatcher
         @type driver: Driver
         @rtype: None
-        >>>driver1 = Driver
-        >>>activateDriver(driver1)
-        [driver1]
         '''
         #TODO
 
         self.availableDriver.append(driver)#MAkes driver availae for pickup
         print(self.availableDriver)#by appending them to the list
+
     def deActivateDriver(self,driver):
         '''Makes driver unavailable for pickups.
 
