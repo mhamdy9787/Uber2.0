@@ -88,8 +88,6 @@ class Dispatcher:
             nearestDriver = self.availableDriver[0]
             #Checking for which driver is closest to the rider.
             for driver in self.availableDriver:
-                print(nearestDriver , nearestDriver.get_travel_time(rider.location) )
-                print(driver,driver.get_travel_time(rider.location))
                 if driver.get_travel_time(rider.location) < nearestDriver.get_travel_time(rider.location):
                     nearestDriver = driver
         return nearestDriver
@@ -126,11 +124,15 @@ class Dispatcher:
         @type self: Dispatcher
         @type driver: Driver
         @rtype: None
+        >>> dispatch = Dispatcher()
+        >>> driver = Driver("John",Location(5,10),4)
+        >>> dispatch.activateDriver(driver)
+        >>> print(dispatch.availableDriver[0].id)
+        John
         '''
         #TODO
 
-        self.availableDriver.append(driver)#MAkes driver availae for pickup
-        print(self.availableDriver)#by appending them to the list
+        self.availableDriver.append(driver)#Makes driver available for pickup by appending them to the list
 
     def deActivateDriver(self,driver):
         '''Makes driver unavailable for pickups.
@@ -138,10 +140,16 @@ class Dispatcher:
         @type self: Dispatcher
         @type driver: Driver
         @rtype: None
+        >>> dispatch = Dispatcher()
+        >>> driver1 = Driver("John",Location(5,10),4)
+        >>> dispatch.activateDriver(driver1)
+        >>> dispatch.deActivateDriver(driver1)
+        >>> print(dispatch.availableDriver)
+        []
         '''
         #TODO
 
-        self.availableDriver.remove(driver)#Driver is removed from list to mae them unavailable
+        self.availableDriver.remove(driver)#Driver is removed from list to make them unavailable
 
     def cancel_ride(self, rider):
         """Cancel the ride for rider.
@@ -149,6 +157,12 @@ class Dispatcher:
         @type self: Dispatcher
         @type rider: Rider
         @rtype: None
+        >>> dispatch = Dispatcher()
+        >>> rider1 = Rider("rider","waiting",Location(5,15),Location(20,5),100)
+        >>> dispatch.request_driver(rider1)
+        >>> dispatch.cancel_ride(rider1)
+        >>> print(dispatch.waitingList)
+        []
         """
         # TODO
         if rider in self.waitingList:
