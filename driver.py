@@ -46,9 +46,17 @@ class Driver:
 
         @type self: Driver
         @rtype: bool
+        >>> santi = Driver("santi",Location(1,1),1)
+        >>> santi2 = Driver("santi",Location(1,1),1)
+        >>> santi == santi2
+        True
+        >>> santi3 = Driver("santi",Location(1,2),1)
+        >>> santi == santi3
+        False
         """
         # TODO
-        pass
+        return self.location == other.location and self.id == other.id and self.destination == other.destination \
+               and self.speed == other.speed
 
     def get_travel_time(self, destination):
         """Return the time it will take to arrive at the destination,
