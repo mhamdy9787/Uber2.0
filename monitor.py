@@ -1,4 +1,4 @@
-from location import Location #imported for doctesting
+from location import Location, manhattan_distance #imported for doctesting
 
 """
 The Monitor module contains the Monitor class, the Activity class,
@@ -149,17 +149,16 @@ class Monitor:
         >>> pickup = Activity(5,"pickup","driver",Location(5,15))
         >>> dropoff = Activity(15,"dropoff","driver",Location(10,25))
         >>> monitor1 = Monitor()
-        >>> monitor1._activities[DRIVER] = {pickup:5}
-        >>> monitor1._activities[DRIVER] = {dropoff:15}
+        >>> monitor1._activities[DRIVER] = {"driver":[pickup,dropoff]}
         >>> print(monitor1._average_total_distance())
-        15
+        15.0
         """
         # TODO
         distance = 0
         numberOfDriver = 0
         for activities in self._activities[DRIVER].values():#The two loops looks through all the activities for each driver
             for i in range(len(activities) -1):#Then performs a manhaatan distance on the locations of each activity
-                distance += abs(activities[i].location.row - activities[i+1].location.row) + abs(activities[i].location.column - activities[i+1].location.column)
+                distance += manhattan_distance(activities[i].location,activities[i+1].location)
             numberOfDriver += 1
         return  distance / numberOfDriver
 
@@ -172,20 +171,18 @@ class Monitor:
         >>> request = Activity(5,"request","rider",Location(5,15))
         >>> pickup = Activity(10,"pickup","rider",Location(5,10))
         >>> dropoff = Activity(15,"dropoff","rider",Location(20,15))
-        >>> count = 5
         >>> monitor1 = Monitor()
-        >>> monitor1._activities[RIDER] = {request:5}
-        >>> monitor1._activities[RIDER] = {pickup:10}
-        >>> monitor1._activities[RIDER] = {dropoff:15}
+        >>> monitor1._activities[RIDER] = {"rider":[request,pickup,dropoff]}
+        >>> monitor1._activities[DRIVER] = {1:2,2:3,3:4,5:6,7:6,8:9}
         >>> print(monitor1._average_ride_distance())
-        4
+        3.3333333333333335
         """
         # TODO
         averageRideDistance = 0
-        count = len(self._activities[DRIVER].values())
+        count = len(self._activities[DRIVER])
 
         for activity in self._activities[RIDER].values():
             if len(activity) == 3:#If a rider has 3 events it means they were picked up so we should find this average.
-                averageRideDistance += abs( activity[1].location.row - activity[2].location.row ) + abs(activity[1].location.column - activity[2].location.column)
+                averageRideDistance += manhattan_distance(activity[1].location,activity[2].location)
 
         return averageRideDistance / count
