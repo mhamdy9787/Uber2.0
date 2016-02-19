@@ -55,8 +55,8 @@ class Dispatcher:
         return ("Amount of Drivers: " + str(len(self.driverFleet)) + "\n"
                 "Amount of available Drivers: " + str(len(self.availableDriver)) + "\n"
                 "Amount of passengers: " + str(len(self.waitingList)))#The number of waiting customers
-                
-                
+
+
     def request_driver(self, rider):# Weird Error in doctest
         """Return a driver for the rider, or None if no driver is available.
 
