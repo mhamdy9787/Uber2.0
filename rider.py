@@ -1,3 +1,4 @@
+from location import Location #imported for doctesting
 """
 The rider module contains the Rider class. It also contains
 constants that represent the status of the rider.
@@ -49,5 +50,7 @@ class Rider:
 
         @type self: Rider
         @rtype: str
+        >>> print(Rider("rider","waiting",Location(5,15),Location(20,5),100))
+        rider waiting
         """
         return "{} {}".format(self.id,self.status)
