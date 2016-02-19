@@ -1,4 +1,4 @@
-
+from location import Location #imported for doctesting
 
 """
 The Monitor module contains the Monitor class, the Activity class,
@@ -146,16 +146,12 @@ class Monitor:
 
         @type self: Monitor
         @rtype: float
-        >>>pickup = Activity()
-        >>>pickup.location.column = 5
-        >>>pickup.location.row = 15
-        >>>dropoff = Activity()
-        >>>dropoff.location.column = 10
-        >>>dropoff.location.row = 25
-        >>>monitor1 = Monitor()
-        >>>monitor1._activities[DRIVER].append(pickup)
-        >>>monitor1._activities[DRIVER].append(dropoff)
-        >>>monitor1._average_total_distance()
+        >>> pickup = Activity(5,"pickup","driver",Location(5,15))
+        >>> dropoff = Activity(15,"dropoff","driver",Location(10,25))
+        >>> monitor1 = Monitor()
+        >>> monitor1._activities[DRIVER] = {pickup:5}
+        >>> monitor1._activities[DRIVER] = {dropoff:15}
+        >>> print(monitor1._average_total_distance())
         15
         """
         # TODO
@@ -173,19 +169,15 @@ class Monitor:
 
         @type self: Monitor
         @rtype: float
-        >>>request = Activity()
-        >>>pickup = Activity()
-        >>>pickup.location.column = 5
-        >>>pickup.location.row = 10
-        >>>dropoff = Activity()
-        >>>dropoff.location.column = 20
-        >>>dropoff.location.row = 15
-        >>>count = 5
-        >>>monitor1 = Monitor()
-        >>>monitor1._activities[RIDER].append(request)
-        >>>monitor1._activities[RIDER].append(pickup)
-        >>>monitor1._activities[RIDER].append(dropoff)
-        >>>monitor1._average_ride_distance()
+        >>> request = Activity(5,"request","rider",Location(5,15))
+        >>> pickup = Activity(10,"pickup","rider",Location(5,10))
+        >>> dropoff = Activity(15,"dropoff","rider",Location(20,15))
+        >>> count = 5
+        >>> monitor1 = Monitor()
+        >>> monitor1._activities[RIDER] = {request:5}
+        >>> monitor1._activities[RIDER] = {pickup:10}
+        >>> monitor1._activities[RIDER] = {dropoff:15}
+        >>> print(monitor1._average_ride_distance())
         4
         """
         # TODO
