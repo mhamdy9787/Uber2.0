@@ -1,22 +1,18 @@
+from event import Event, create_event_list
 from container import PriorityQueue
 from dispatcher import Dispatcher
-from event import Event, create_event_list
 from monitor import Monitor
 
 
 class Simulation:
     """A simulation.
-
     This is the class which is responsible for setting up and running a
     simulation.
-
     The API is given to you: your main task is to implement the run
     method below according to its docstring.
-
     Of course, you may add whatever private attributes and methods you want.
     But because you should not change the interface, you may not add any public
     attributes or methods.
-
     This is the entry point into your program, and in particular is used for
     auto-testing purposes. This makes it ESSENTIAL that you do not change the
     interface in any way!
@@ -31,7 +27,6 @@ class Simulation:
 
     def __init__(self):
         """Initialize a Simulation.
-
         @type self: Simulation
         @rtype: None
         """
@@ -41,10 +36,8 @@ class Simulation:
 
     def run(self, initial_events):
         """Run the simulation on the list of events in <initial_events>.
-
         Return a dictionary containing statistics of the simulation,
         according to the specifications in the assignment handout.
-
         @type self: Simulation
         @type initial_events: list[Event]
             An initial list of events.
@@ -56,9 +49,7 @@ class Simulation:
             self._events.add(event)
         while not self._events.is_empty():
             currentEvent = self._events.remove()
-            print(currentEvent)
             additionalEvents = currentEvent.do(self._dispatcher,self._monitor)
-            print(additionalEvents)
             if additionalEvents != []:
                 for event in additionalEvents:
                     self._events.add(event)
