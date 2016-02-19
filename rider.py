@@ -42,6 +42,10 @@ class Rider:
         @type self: Rider
         @type newStatus: str
         @rtype: None
+        >>> rider = Rider("rider","waiting",Location(5,15),Location(20,5),100)
+        >>> rider.updateStatus(CANCELLED)
+        >>> print(rider.status)
+        cancelled
         """
         self.status = newStatus
 
