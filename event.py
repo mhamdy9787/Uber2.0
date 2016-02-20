@@ -257,6 +257,15 @@ class DriverRequest(Event):
         @type dispatcher: Dispatcher
         @type monitor: Monitor
         @rtype: list[Event]
+        >>> dispatch = Dispatcher()
+        >>> monitor = Monitor()
+        >>> rider1 = Rider("rider","waiting",Location(5,15),Location(20,5),10000)
+        >>> driver1 = Driver("driver1",Location(5,10), 100)
+        >>> driverrequest1 = DriverRequest(15,driver1)
+        >>> eventsList = driverrequest1.do(dispatch,monitor)
+        >>> driver1.destination = rider1.location
+        >>> print(eventsList)
+        fdfd
         """
         # Notify the monitor about the request.
 
@@ -272,11 +281,10 @@ class DriverRequest(Event):
         events = []
         #start drive and create pick up event, the pick up event do() creates the drop off event!!
         if rider is not None:#When a driver is requested the driver that takes the shortest time to get
-            print(rider)#to the rider will get that assignment
-            dispatcher.deActivateDriver(self.driver)
+            dispatcher.deActivateDriver(self.driver)#to the rider will get that assignment
             expectedTravelTime = self.driver.start_drive(rider.location)
             events.append(Pickup(expectedTravelTime + self.timestamp,rider,self.driver))
-            print(expectedTravelTime)
+            #print(expectedTravelTime)
         return events
     def __str__(self):
         """Return a string representation of this event.
@@ -309,6 +317,16 @@ class Cancellation(Event):
         @type dispatcher: Dispatcher
         @type monitor: Monitor
         @rtype: list[Event]
+        >>> dispatch = Dispatcher()
+        >>> monitor = Monitor()
+        >>> rider1 = Rider("rider","waiting",Location(5,15),Location(20,5),1)
+        >>> driver1 = Driver("driver1",Location(5,10), 10)
+        >>> driverrequest1 = DriverRequest(15,driver1)
+        >>> eventsList = driverrequest1.do(dispatch,monitor)
+        >>> cancellation = Cancellation(16,rider1)
+        >>> eventList = cancellation.do(dispatch,monitor)
+        >>> print(eventsList)
+        []
         """
         events = []
         if self.rider.status != SATISFIED:#Can only be carried out the status of the rider is not SATISFIED
@@ -351,6 +369,24 @@ class Pickup(Event):
         @type dispatcher: Dispatcher
         @type monitor: Monitor
         @rtype: list[Event]
+        >>> dispatch  = Dispatcher()
+        >>> monitor = Monitor()
+        >>> driver1 = Driver("driver1",Location(5,10), 10)
+        >>> rider1 = Rider("rider1","cancelled",Location(5,15),Location(20,5),1)
+        >>> pickup = Pickup(15,rider1,driver1)
+        >>> eventList = pickup.do(dispatch,monitor)
+        >>> driver1.location = rider1.location
+        >>> print(eventList[0])
+        15 -- Driver: driver1, located at 20,5: Request a rider
+        >>> dispatch  = Dispatcher()
+        >>> monitor = Monitor()
+        >>> driver2 = Driver("driver2",Location(5,10), 10)
+        >>> rider2 = Rider("rider2","waiting",Location(5,15),Location(20,5),1)
+        >>> pickup = Pickup(15,rider2,driver2)
+        >>> eventList = pickup.do(dispatch,monitor)
+        >>> driver2.destination = rider2.destination
+        >>> print(eventList[0])
+        15 -- Driver: driver1, located at 20,5: Request a rider
         """
         self.driver.end_drive()
 
@@ -397,6 +433,15 @@ class Dropoff(Event):
         @type dispatcher: Dispatcher
         @type monitor: Monitor
         @rtype: list[Event]
+        >>> dispatch  = Dispatcher()
+        >>> monitor = Monitor()
+        >>> driver1 = Driver("driver1",Location(5,10), 10)
+        >>> rider1 = Rider("rider1","waiting",Location(5,15),Location(20,5),1)
+        >>> driver1.destination = rider1.destination
+        >>> dropoff  = Dropoff(15,driver1,rider1)
+        >>> eventList = dropoff.do(dispatch,monitor)
+        >>> print(eventList[0])
+        15 -- Driver: driver1, located at 5,15: Request a rider
         """
         events = []
         self.driver.end_ride()
@@ -425,6 +470,19 @@ def create_event_list(filename):
     @param filename: str
         The name of a file that contains the list of events.
     @rtype: list[Event]
+    >>> for event in create_event_list("events.txt"): print(event)
+    0 -- Driver: Amaranth, located at 1,1: Request a rider
+    0 -- Driver: Bergamot, located at 1,2: Request a rider
+    0 -- Driver: Crocus, located at 3,1: Request a rider
+    0 -- Driver: Dahlia, located at 3,2: Request a rider
+    0 -- Driver: Edelweiss, located at 4,2: Request a rider
+    0 -- Driver: Foxglove, located at 5,2: Request a rider
+    0 -- Almond waiting: Request a driver
+    5 -- Bisque waiting: Request a driver
+    10 -- Cerise waiting: Request a driver
+    15 -- Desert waiting: Request a driver
+    20 -- Eggshell waiting: Request a driver
+    25 -- Fallow waiting: Request a driver
     """
     events = []
     with open(filename, "r") as file:
